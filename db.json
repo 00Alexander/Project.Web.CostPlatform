@@ -98,6 +98,17 @@
       "cost": 0,
       "services": [],
       "id": 9
+    },
+    {
+      "name": "Teste",
+      "budget": "34234234",
+      "category": {
+        "id": "3",
+        "name": "Desing"
+      },
+      "cost": 0,
+      "services": [],
+      "id": 10
     }
   ],
   "categories": [
