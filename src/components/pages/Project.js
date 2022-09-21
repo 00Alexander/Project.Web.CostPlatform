@@ -1,4 +1,4 @@
-import { v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 import styles from './Project.module.css'
 
@@ -63,7 +63,7 @@ function Project() {
             .catch((err) => console.log(err))
     }
 
-    function createServices(project){
+    function createServices(project) {
         setMessage('')
         const lastService = project.services[project.services.length - 1]
 
@@ -73,7 +73,7 @@ function Project() {
 
         const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost)
 
-        if(newCost > parseFloat(project.budget)){
+        if (newCost > parseFloat(project.budget)) {
             setMessage('Orçamento ultrapassodo, verifique o valor do serviço')
             setType('erro')
             project.services.pop()
@@ -98,7 +98,30 @@ function Project() {
             .catch((err) => console.log(err))
     }
 
-    function removeService(){
+    function removeService(id, cost) {
+        const servicesUpdated = project.services.filter(
+            (service) => service.id !== id
+        )
+
+        const projectUpdated = project
+
+        projectUpdated.service = servicesUpdated
+        projectUpdated.cost = parseFloat(projectUpdated.cost) - parseFloat(cost)
+
+        fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(projectUpdated),
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                setProject(projectUpdated)
+                setServices(servicesUpdated)
+                setMessage('Serviço removido com sucesso!')
+            })
+            .catch((err) => console.log(err))
 
     }
 
@@ -155,7 +178,7 @@ function Project() {
                                     handleSubmit={createServices}
                                     btnText="Adicionar Serviço"
                                     projectData={project}
-                            
+
                                 />)}
                             </div>
                         </div>
@@ -163,15 +186,15 @@ function Project() {
                         <Container customClass="start">
                             {services.length > 0 &&
                                 services.map((service) => (
-                                    <ServiceCard 
-                                    id={service.id}
-                                    name={service.name}
-                                    cost={service.cost}
-                                    description={service.description}
-                                    key={service.id}
-                                    handleRemove={removeService}
+                                    <ServiceCard
+                                        id={service.id}
+                                        name={service.name}
+                                        cost={service.cost}
+                                        description={service.description}
+                                        key={service.id}
+                                        handleRemove={removeService}
                                     />
-                                )) 
+                                ))
                             }
                             {services.length === 0 && <p>Não há serviços cadastrados!</p>}
                         </Container>
