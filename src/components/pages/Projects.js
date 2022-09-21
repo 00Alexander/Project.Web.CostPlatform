@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom"
 import Message from "../layout/Message"
 import Container from '../layout/Container';
 import Loading from '../layout/Loading';
-import styles from './Project.module.css'
+import styles from './Projects.module.css'
 import LinkButton from "../layout/LinkButton";
 import ProjectCard from "../project/ProjectCard";
 import { useState, useEffect } from "react";
@@ -37,6 +37,20 @@ function Projects() {
         }, 1000)
     }, [])
 
+    function removeProject(id){
+        fetch(`http://localhost:5000/projects/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            })
+                .then((resp) => resp.json())
+                .then(data => {
+                    setProjects(projects.filter((projects) => projects.id !== id))
+                })
+                .catch((err) => console.log(err))
+    }
+
 
     return (
         <div className={styles.project_container}>
@@ -47,7 +61,14 @@ function Projects() {
             {message && <Message type="success" msg={message} />}
             <Container customClass="start">
                 {projects.length > 0 && projects.map((data) => (
-                    <ProjectCard name={data.name} budget={data.budget} category={data.category.name} />
+                    <ProjectCard 
+                    id ={data.id}
+                    name={data.name} 
+                    budget={data.budget} 
+                    category={data.category.name}
+                    key={data.id}
+                    handleRemove={removeProject} 
+                    />
 
                 ))}
                 {!removeLoading && <Loading />}

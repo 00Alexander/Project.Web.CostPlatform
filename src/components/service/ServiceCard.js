@@ -1,8 +1,8 @@
-import styles from './ProjectCard.module.css'
+import styles from '../project/ProjectCard.module.css'
 import { BsPencil, BsFillTrashFill} from 'react-icons/bs'
 import { NavLink } from  'react-router-dom'
 
-function ProjectCard({id, name, budget, category, handleRemove}){
+function ServiceCard({id, name, cost, description, handleRemove}){
     
     const remove = (e) => {
         e.preventDefault()
@@ -13,15 +13,10 @@ function ProjectCard({id, name, budget, category, handleRemove}){
     <div className={styles.project_cartd}>
         <h4>{name}</h4>
         <p>
-            <span>Orçamento:</span> R${budget}
+            <span>Custo total:</span> R${cost}
         </p>
-        <p className={styles.category_text}>
-            <span className={`${styles[category.toLowerCase()]}`}></span> {category}
-        </p>
+        <p>{description}</p>
         <div className={styles.project_cartd_actions}>
-            <NavLink to={`/project/${id}`}>
-                <BsPencil/> Editar
-            </NavLink>
            <button onClick={remove}>
             <BsFillTrashFill /> Excluir
            </button>
@@ -29,4 +24,4 @@ function ProjectCard({id, name, budget, category, handleRemove}){
     </div>)
 }
 
-export default ProjectCard
+export default ServiceCard
