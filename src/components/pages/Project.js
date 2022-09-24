@@ -24,7 +24,7 @@ function Project() {
 
     useEffect(() => {
         setTimeout(() => {
-            fetch(`http://localhost:5000/projects/${id}`, {
+            fetch(`https://restapijasonserver.herokuapp.com/projects/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
@@ -46,7 +46,7 @@ function Project() {
             setType('erro')
             return false
         }
-        fetch(`http://localhost:5000/projects/${project.id}`, {
+        fetch(`https://restapijasonserver.herokuapp.com/projects/${project.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-type': 'application/json',
@@ -84,7 +84,7 @@ function Project() {
         project.cost = newCost
 
         // update project
-        fetch(`http://localhost:5000/projects/${project.id}`, {
+        fetch(`https://restapijasonserver.herokuapp.com/projects/${project.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-type': 'application/json',
@@ -108,7 +108,7 @@ function Project() {
         projectUpdated.service = servicesUpdated
         projectUpdated.cost = parseFloat(projectUpdated.cost) - parseFloat(cost)
 
-        fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+        fetch(`https://restapijasonserver.herokuapp.com/projects/${projectUpdated.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-type': 'application/json',
